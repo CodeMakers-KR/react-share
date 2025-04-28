@@ -1,0 +1,193 @@
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: #333;
+  text-decoration: none;
+}
+
+a.active {
+  color: #f00;
+  border-bottom: 1px solid #f00;
+}
+
+body {
+  margin: 0;
+  color: #333;
+  background-color: #ccc;
+}
+
+.wrapper {
+  width: 80%;
+  margin: 1rem auto;
+  padding: 0.625rem;
+  background-color: #fff;
+}
+
+.wrapper > header {
+  font-size: 2rem;
+  font-weight: 900;
+  padding: 1rem;
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
+}
+
+.wrapper > .tasks {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wrapper > .tasks > li {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid #ccc;
+  padding: 1rem;
+}
+
+.wrapper > .tasks > li.tasks-counter {
+  background-color: #fff;
+  display: flex;
+  gap: 0.625rem;
+}
+.wrapper > .tasks > li.tasks-header {
+  background-color: #fff;
+  font-weight: 900;
+  position: sticky;
+  top: 4.5rem;
+}
+
+.wrapper > .tasks > li.task-item:hover {
+  background-color: #eee;
+}
+
+.wrapper > .tasks > li > input {
+  display: inline-block;
+  margin-right: 0.625rem;
+}
+
+.wrapper > .tasks > li > input + label {
+  flex-grow: 1;
+}
+
+.wrapper > .tasks > li > span.due-date {
+  display: inline-block;
+  flex-basis: 7rem;
+  text-align: center;
+}
+
+.wrapper > .tasks > li > span.priority {
+  display: inline-block;
+  flex-basis: 5rem;
+  text-align: center;
+}
+
+.wrapper > footer {
+  margin-top: 2rem;
+  display: flex;
+  gap: 0.625rem;
+}
+.wrapper > footer > input[type="text"] {
+  flex-grow: 1;
+  padding: 0.625rem;
+}
+.wrapper > footer > input[type="date"] {
+  padding: 0.625rem;
+}
+.wrapper > footer > select {
+  padding: 0.625rem;
+}
+
+.wrapper > footer > button {
+  flex-basis: 4rem;
+}
+
+.done-todo {
+  color: #ccc;
+  text-decoration: line-through;
+}
+
+.done-todo a {
+  color: #ccc;
+}
+
+input,
+select,
+button {
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid #ccc;
+}
+
+button {
+  border: 1px solid transparent;
+  background-color: #54a0f3;
+  border-radius: 5px;
+  color: #fff;
+}
+button:hover {
+  background-color: #a4ccf7;
+  color: #333;
+}
+button:active {
+  background-color: #79a7d8;
+  color: #333;
+  color: #fff;
+}
+
+button.confirm-ok {
+  background-color: #79d8aa;
+}
+
+button.confirm-cancel {
+  background-color: #d87979;
+}
+
+.modal {
+  border: none;
+  padding: 1rem;
+  border-radius: 0.625rem;
+}
+
+.modal .modal-body .modal-close-button {
+  text-align: right;
+  font-weight: 900;
+}
+
+.modal .modal-button-group {
+  margin: 0.625rem 0;
+  margin-bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.625rem;
+  height: 2rem;
+}
+
+.main-container {
+  width: 80%;
+  margin: 1rem auto;
+}
+
+.main-container > .wrapper {
+  width: 100%;
+  margin: 0;
+}
+
+.main-container > header {
+  padding: 1rem;
+  background-color: #fff;
+}
+
+.main-container nav.menu-navigation > ul {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  list-style-type: none;
+  gap: 0.625rem;
+  justify-content: center;
+}
