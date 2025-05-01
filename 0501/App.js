@@ -13,6 +13,8 @@ function App() {
   const [todoLists, todoDispatcher] = useReducer(taskReducers, []);
 
   const fetchCall = async () => {
+    setIsLoading(true);
+
     const response = await fetch("http://192.168.210.11:8888/api/v1/task", {
       method: "GET",
     });
@@ -20,6 +22,8 @@ function App() {
 
     const json = await response.json();
     console.log(json);
+
+    setIsLoading(false);
     todoDispatcher({ type: actionType.init, payload: json.body });
   };
 
@@ -40,9 +44,31 @@ function App() {
   };
 
   const addNewTodoHandler = useCallback((task, dueDate, priority) => {
-    todoDispatcher({
-      type: actionType.add,
-      payload: { task, dueDate, priority },
+    const addFetch = async (fnCallback) => {
+      const response = await fetch("http://192.168.210.11:8888/api/v1/task", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          task,
+          dueDate,
+          priority,
+          isDone: false,
+        }),
+      });
+
+      const json = await response.json();
+      console.log(json);
+
+      if (json.status === 201) {
+        fnCallback(json.body.taskId);
+      }
+    };
+
+    addFetch((taskId) => {
+      todoDispatcher({
+        type: actionType.add,
+        payload: { taskId, task, dueDate, priority },
+      });
     });
   }, []);
 
