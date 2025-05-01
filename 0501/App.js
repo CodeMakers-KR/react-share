@@ -131,15 +131,24 @@ function App() {
 
   const allDoneOkHandler = () => {
     const allDoneFetch = async (fnCallback) => {
-      const response = await fetch(`http://192.168.210.11:8888/api/v1/task`, {
-        method: "PUT",
-      });
+      const copyTodoLists = [...todoLists];
 
-      const json = await response.json();
-      console.log(json);
+      fnCallback();
 
-      if (json.status === 200) {
-        fnCallback();
+      try {
+        const response = await fetch(`http://192.168.210.11:8888/api/v1/task`, {
+          method: "PUT",
+        });
+
+        const json = await response.json();
+        console.log(json);
+        if (json.status !== 200) {
+          todoDispatcher({ type: actionType.init, payload: copyTodoLists });
+        }
+      } catch (e) {
+        console.log(e);
+        console.log(copyTodoLists);
+        todoDispatcher({ type: actionType.init, payload: copyTodoLists });
       }
     };
 
