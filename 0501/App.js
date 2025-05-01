@@ -82,11 +82,27 @@ function App() {
   };
 
   const doneTodoItemHandler = () => {
-    todoDispatcher({
-      type: actionType.done,
-      payload: { id: doneConfirmRef.todoId },
+    const doneFetch = async (fnCallback) => {
+      const response = await fetch(
+        `http://192.168.210.11:8888/api/v1/task/${doneConfirmRef.todoId}`,
+        { method: "PUT" }
+      );
+
+      const json = await response.json();
+      console.log(json);
+
+      if (json.status === 200) {
+        fnCallback(json.body);
+      }
+    };
+
+    doneFetch((taskId) => {
+      todoDispatcher({
+        type: actionType.done,
+        payload: { id: taskId },
+      });
+      doneConfirmRef.current.close();
     });
-    doneConfirmRef.current.close();
   };
 
   const doneAllTodoHandler = useCallback(
