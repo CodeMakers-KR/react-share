@@ -130,8 +130,23 @@ function App() {
   );
 
   const allDoneOkHandler = () => {
-    todoDispatcher({ type: actionType.allDone, payload: {} });
-    allDoneConfirmRef.current.close();
+    const allDoneFetch = async (fnCallback) => {
+      const response = await fetch(`http://192.168.210.11:8888/api/v1/task`, {
+        method: "PUT",
+      });
+
+      const json = await response.json();
+      console.log(json);
+
+      if (json.status === 200) {
+        fnCallback();
+      }
+    };
+
+    allDoneFetch(() => {
+      todoDispatcher({ type: actionType.allDone, payload: {} });
+      allDoneConfirmRef.current.close();
+    });
   };
 
   return (
