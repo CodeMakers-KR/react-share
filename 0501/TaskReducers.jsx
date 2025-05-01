@@ -15,7 +15,7 @@ export default function taskReducers(state, action) {
     return [
       ...state,
       {
-        id: "item" + (state.length + 1),
+        id: payload.taskId,
         task: payload.task,
         dueDate: payload.dueDate,
         priority: payload.priority,
