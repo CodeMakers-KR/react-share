@@ -4,6 +4,7 @@ import TaskList from "./Components/TaskList";
 import Confirm from "./Components/modal/Confirm";
 import Alert from "./Components/modal/Modal";
 import taskReducers, { actionType } from "./reducers/TaskReducers";
+import { addTask, allDoneTasks, doneTask, loadTasks } from "./http/http";
 
 function App() {
   console.log("Call [App] Component");
@@ -15,13 +16,7 @@ function App() {
   const fetchCall = async () => {
     setIsLoading(true);
 
-    const response = await fetch("http://192.168.210.11:8888/api/v1/task", {
-      method: "GET",
-    });
-    console.log(response);
-
-    const json = await response.json();
-    console.log(json);
+    const json = await loadTasks();
 
     setIsLoading(false);
     todoDispatcher({ type: actionType.init, payload: json.body });
@@ -45,19 +40,7 @@ function App() {
 
   const addNewTodoHandler = useCallback((task, dueDate, priority) => {
     const addFetch = async (fnCallback) => {
-      const response = await fetch("http://192.168.210.11:8888/api/v1/task", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          task,
-          dueDate,
-          priority,
-          isDone: false,
-        }),
-      });
-
-      const json = await response.json();
-      console.log(json);
+      const json = await addTask({ task, dueDate, priority });
 
       if (json.status === 201) {
         fnCallback(json.body.taskId);
@@ -83,13 +66,7 @@ function App() {
 
   const doneTodoItemHandler = () => {
     const doneFetch = async (fnCallback) => {
-      const response = await fetch(
-        `http://192.168.210.11:8888/api/v1/task/${doneConfirmRef.todoId}`,
-        { method: "PUT" }
-      );
-
-      const json = await response.json();
-      console.log(json);
+      const json = await doneTask(doneConfirmRef.todoId);
 
       if (json.status === 200) {
         fnCallback(json.body);
@@ -131,24 +108,9 @@ function App() {
 
   const allDoneOkHandler = () => {
     const allDoneFetch = async (fnCallback) => {
-      const copyTodoLists = [...todoLists];
-
-      fnCallback();
-
-      try {
-        const response = await fetch(`http://192.168.210.11:8888/api/v1/task`, {
-          method: "PUT",
-        });
-
-        const json = await response.json();
-        console.log(json);
-        if (json.status !== 200) {
-          todoDispatcher({ type: actionType.init, payload: copyTodoLists });
-        }
-      } catch (e) {
-        console.log(e);
-        console.log(copyTodoLists);
-        todoDispatcher({ type: actionType.init, payload: copyTodoLists });
+      const json = await allDoneTasks();
+      if (json.status === 200) {
+        fnCallback();
       }
     };
 
